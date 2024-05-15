@@ -1,5 +1,7 @@
 // npm - global coomand, come with node
 
+//const { reject } = require("lodash");
+
 // npm  --version
 
 // local dependency - use it only in this particular project
@@ -127,3 +129,51 @@ function updateWallet(summaryInfo) {
 function validateCart(cart) {
   return true;
 }
+
+//Promise Api
+
+const p1 = new Promise((resolve, reject) => {
+  setTimeout(() => resolve("P1 success"), 3000);
+});
+
+const p2 = new Promise((resolve, reject) => {
+  setTimeout(() => reject("p2 fail"), 1000);
+  //setTimeout(() => resolve("p2 success"), 1000);
+});
+
+const p3 = new Promise((resolve, reject) => {
+  setTimeout(() => resolve("p3 success"), 2000);
+  //setTimeout(() => reject("p3 fails"), 2000);
+});
+
+// in race the result will be the fist settled promise whther its fail or pass
+Promise.race([p1, p2, p3])
+  .then((res) => {
+    console.log(res);
+  })
+  .catch((res) => {
+    console.error(res);
+  });
+// Promise.all([p1, p2, p3])
+//   .then((res) => {
+//     console.log(res);
+//   })
+//   .catch((res) => {
+//     console.error(res);
+//   });
+// // all settled give the array of object
+// Promise.allSettled([p1, p2, p3])
+//   .then((res) => {
+//     console.log(res);
+//   })
+//   .catch((res) => {
+//     console.error(res);
+//   });
+
+Promise.any([p1, p2, p3])
+  .then((res) => {
+    console.log(res);
+  })
+  .catch((res) => {
+    console.error(res);
+  });
